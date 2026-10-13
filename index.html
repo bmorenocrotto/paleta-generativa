@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Paleta generativa</title>
+<style>
+  body { font-family: sans-serif; text-align: center; background: #f5f5f5; }
+  canvas { margin: 20px auto; display: block; }
+  button { font-size: 18px; padding: 10px 24px; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Paleta generativa</h1>
+<canvas id="lienzo" width="400" height="400"></canvas>
+<button onclick="generar()">Generar</button>
+<p id="colores"></p>
+<script>
+function generar() {
+  const ctx = document.getElementById("lienzo").getContext("2d");
+  const tonoBase = Math.random() * 360;
+  const paleta = [];
+  for (let i = 0; i < 5; i++) {
+    paleta.push("hsl(" + Math.round((tonoBase + i * 72) % 360) + ", 65%, 55%)");
+  }
+  ctx.clearRect(0, 0, 400, 400);
+  for (let fila = 0; fila < 10; fila++) {
+    for (let col = 0; col < 10; col++) {
+      ctx.fillStyle = paleta[Math.floor(Math.random() * 5)];
+      if (Math.random() < 0.5) {
+        ctx.fillRect(col * 40, fila * 40, 40, 40);
+      } else {
+        ctx.beginPath();
+        ctx.arc(col * 40 + 20, fila * 40 + 20, 20, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+  document.getElementById("colores").textContent = paleta.join("  ·  ");
+}
+generar();
+</script>
+</body>
+</html>
